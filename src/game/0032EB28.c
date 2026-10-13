@@ -477,7 +477,7 @@ INCLUDE_ASM("asm/game", func_00336308);
 /* Measured target: byte-identical across all 27 levels. */
 s32 func_00336318(u8 *a0) { return *(s32 *)(a0 + 0x38); }
 
-INCLUDE_ASM("asm/game", func_00336320);
+
 
 extern int func_00336D50(int, int);
 

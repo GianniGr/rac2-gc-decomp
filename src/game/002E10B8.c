@@ -202,7 +202,18 @@ float func_002E46C0(char *self, char *p)
 
 INCLUDE_ASM("asm/game", func_002E4708);
 
-INCLUDE_ASM("asm/game", func_002E4860);
+void func_002E4860(void)
+{
+    struct Layout { char reserved[0x48]; int a,b,c,d,e,f; };
+    struct Layout *layout = (struct Layout *)D_00188660;
+    int width = *(int *)0x1A7BA0;
+    layout->a = width * 7 / 10;
+    layout->b = *(int *)0x1A7B9C;
+    layout->c = width;
+    layout->d = width * 6 / 10;
+    layout->e = 614;
+    layout->f = width * 25 / 32;
+}
 
 INCLUDE_ASM("asm/game", func_002E48E8);
 
@@ -289,7 +300,31 @@ int func_002E5CF8(int index, int a1, char *a2)
     return r;
 }
 
-INCLUDE_ASM("asm/game", func_002E5DA0);
+extern unsigned char D_L00_001DA860[];
+extern char *D_L00_001D9F00[];
+extern int func_002E5AD0(char *, int, char *, int, int);
+
+int func_002E5DA0(int index, int value, char *object, int kind)
+{
+    char *header = D_L00_001D9F00[D_L00_001DA860[kind]];
+    char *entries;
+    int result;
+    char *row;
+    if (header == 0)
+        return -1;
+    entries = *(char **)(header + 0x28);
+    if (entries == 0)
+        return -1;
+    if (index >= (unsigned char)header[0xD])
+        return -1;
+    result = func_002E5AD0(entries + index * 32, value, object, 0, 0x400);
+    if (result >= 0) {
+        row = D_00188660 + result * 112;
+        *(char **)(row + 0x88) = object;
+        *(short *)(row + 0x7E) = index;
+    }
+    return result;
+}
 
 INCLUDE_ASM("asm/game", func_002E5E58);
 

@@ -259,7 +259,14 @@ int func_0029FA88(void *object)
     return -1;
 }
 
-INCLUDE_ASM("asm/game", func_0029FAE0);
+void func_0029FAE0(void)
+{
+    int i;
+    for (i = 0; i < 16; i++) {
+        D_L00_001B1E00[i] = 0;
+        D_L00_001B1E40[i] = 0;
+    }
+}
 
 INCLUDE_ASM("asm/game", func_0029FB20);
 

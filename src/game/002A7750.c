@@ -399,7 +399,7 @@ int func_002A9568(int first, int second, float amount) {
     return func_00283D38(first, second, amount);
 }
 
-INCLUDE_ASM("asm/game", func_002A9588);
+
 
 INCLUDE_ASM("asm/game", func_002A9640);
 

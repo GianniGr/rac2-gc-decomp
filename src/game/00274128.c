@@ -147,7 +147,14 @@ INCLUDE_ASM("asm/game", func_00274810);
 
 INCLUDE_ASM("asm/game", func_00274A88);
 
-INCLUDE_ASM("asm/game", func_00274B58);
+extern void func_002ACE78(float *, float *, float);
+void func_00274B58(OozlaAppendObject164 *a0, float *a1, const float *a2) {
+    float tmp[4];
+    float value;
+    func_00282F20_16(tmp, (void *)a2, 1.0f);
+    value = func_00282DB0_3(tmp, a1);
+    func_002ACE78(a1, tmp, value);
+}
 
 /* Keeps the float one helper returns, and when a later helper reports a ratio above 0.7 scales it by a factor with a floor, hands it to a setter through a local, then reports whether the kept value is non-zero. */
 int func_00274BA8(void *p, void *q, void *r, float f12, float f13)

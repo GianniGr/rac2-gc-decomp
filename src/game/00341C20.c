@@ -53,7 +53,8 @@ INCLUDE_ASM("asm/game", func_00341CE0);
 
 INCLUDE_ASM("asm/game", func_00341E50);
 
-INCLUDE_ASM("asm/game", func_00341E58);
+extern void func_00341E90(char *);
+
 
 extern void func_00348128(void *);
 
@@ -108,7 +109,20 @@ INCLUDE_ASM("asm/game", func_00342428);
 
 INCLUDE_ASM("asm/game", func_003424C0);
 
-INCLUDE_ASM("asm/game", func_003425B8);
+void func_003425B8(char *object)
+{
+    extern int func_002A9588(unsigned int, unsigned int, int, int, int);
+    extern int *func_00335E20(char *);
+    extern void func_00336320(char *);
+    extern int D_00138344;
+    int *slot;
+    if (D_00138344 & 0x5000)
+        func_002A9588(0, 0, 1, 0, 1);
+    object += 0xE4;
+    slot = func_00335E20(object);
+    *slot = func_002A9588(0x60442D00, 0x70FFFEED, 20, 0, 0);
+    func_00336320(object);
+}
 
 void func_00342648(int param_1)
 {

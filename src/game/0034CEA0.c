@@ -32,6 +32,10 @@ extern void F0a76d85b_FUN_00283360(char *p);
 
 extern void F0a76d85b_FUN_00279D18(void);
 
+extern void func_0034CEA0(void *);
+extern void func_0034E4B8(int);
+extern void func_0029CB58(void);
+
 typedef int s32;
 
 /* lot15 -- first CALL-BEARING body: the call family is now open. */
@@ -108,7 +112,7 @@ void func_0034E220(char *a0, int a1, int a2, int a3, int t0)
 
 INCLUDE_ASM("asm/game", func_0034E2E0);
 
-INCLUDE_ASM("asm/game", func_0034E478);
+
 
 void func_0034E4B8(int param_1)
 {

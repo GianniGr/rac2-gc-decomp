@@ -515,7 +515,7 @@ INCLUDE_ASM("asm/game", func_0029DC90);
 
 INCLUDE_ASM("asm/game", func_0029DCD0);
 
-INCLUDE_ASM("asm/game", func_0029DD00);
+int func_0029DD00(void) { if (*(unsigned char *)0x001A7BD5) { if (*(unsigned char *)0x001A7B08) return 1; } return 0; }
 
 INCLUDE_ASM("asm/game", func_0029DD30);
 

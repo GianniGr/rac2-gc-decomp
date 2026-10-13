@@ -17,3 +17,20 @@ void func_00335DA0(void *object) {
     *(void **)object = &D_001AD908;
     F7242f0a4_FUN_00335AE0(object);
 }
+
+extern float D_L00_001B2708 __attribute__((sda));
+extern void func_00300A00(int, int, float, float, float, float, float);
+
+void func_00336320(char *object)
+{
+    float *first;
+    float *second;
+    if (**(float **)(object + 0x10) == 0.0f)
+        return;
+    if (*(int *)(object + 0x40) == 0)
+        return;
+    first = *(float **)object;
+    second = *(float **)(object + 4);
+    func_00300A00(*(int *)(object + 0x40), **(int **)(object + 0xC), first[0], first[1],
+                 second[0], second[1] * D_L00_001B2708, **(float **)(object + 0x38));
+}

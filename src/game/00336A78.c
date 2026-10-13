@@ -86,7 +86,18 @@ void func_00336CE0(u8 *object, s32 value) {
     *(s32 *)(object + 0x44) = value;
 }
 
-INCLUDE_ASM("asm/game", func_00336CE8);
+extern void func_00300618(void *);
+
+void func_00336CE8(char *object)
+{
+    int count = *(int *)(object + 0x18);
+    int i;
+    int *row = (int *)(object + 0x1C);
+    for (i = 0; i < count; i++) {
+        row[i * 2 + 1] += (int)object;
+        func_00300618((void *)row[i * 2 + 1]);
+    }
+}
 
 s32 func_00336D50(u8 *a0,s32 a1) {
  s32 count=*(s32 *)(a0+0x18); s32 i,out=0;u8 *base=a0+0x1c;

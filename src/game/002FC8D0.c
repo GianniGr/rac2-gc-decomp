@@ -203,7 +203,8 @@ void *func_002FEC50(int index) {
 
 INCLUDE_ASM("asm/game", func_002FEC78);
 
-INCLUDE_ASM("asm/game", func_002FED28);
+extern void func_0029F9F0(char *, char *);
+void func_002FED28(unsigned int index) { if (index < 64u) { char *p = D_0021F9C0 + index * 0x50; func_0029F9F0(*(char **)(p + 0x40), p); *(char **)(p + 0x40) = 0; } }
 
 INCLUDE_ASM("asm/game", func_002FED78);
 

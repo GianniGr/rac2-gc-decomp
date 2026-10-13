@@ -150,7 +150,10 @@ void func_002F5CB8(int first, int second) {
 
 INCLUDE_ASM("asm/game", func_002F5CC8);
 
-INCLUDE_ASM("asm/game", func_002F5D10);
+int func_002F5D10(void)
+{
+    return D_L05_001A8F08 == 2 || D_L05_001A8F00 == 2;
+}
 
 INCLUDE_ASM("asm/game", func_002F5D40);
 

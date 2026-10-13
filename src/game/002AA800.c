@@ -186,7 +186,21 @@ float func_002AB0E8(int a0, int a1, int a2, int a3)
 	return m[a3];
 }
 
-INCLUDE_ASM("asm/game", func_002AB168);
+extern void func_00282F20(float *, float);
+extern float func_00282DB0(void *, void *);
+extern void func_00282D30(void *, void *, float);
+extern void func_00282CF0(void *, void *, void *);
+
+void func_002AB168(float *out, float *vector, float *axis, float amount)
+{
+    float scaled[4];
+    float unit[4];
+    float dot;
+    ((void (*)(float *, float *, float))func_00282F20)(unit, axis, 1.0f);
+    dot = func_00282DB0(unit, vector);
+    func_00282D30(scaled, unit, dot * amount);
+    func_00282CF0(out, vector, scaled);
+}
 
 s32 func_002AB1F0(u8 *a0) {
  if(a0==0) return 0;

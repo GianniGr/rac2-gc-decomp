@@ -138,7 +138,7 @@ INCLUDE_ASM("asm/game", func_00326A10);
 
 INCLUDE_ASM("asm/game", func_00326BD0);
 
-INCLUDE_ASM("asm/game", func_00326BD8);
+
 
 INCLUDE_ASM("asm/game", func_00326CA8);
 
@@ -173,6 +173,6 @@ void func_00326CB8(char *obj)
     *(float *)(e + 48) = func_00282DF0(buf);
 }
 
-INCLUDE_ASM("asm/game", func_00326D90);
+
 
 INCLUDE_ASM("asm/game", func_00326EC0);
