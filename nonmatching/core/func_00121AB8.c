@@ -1,25 +1,59 @@
-/* func_00121AB8, 96 bytes, boot. A 64-bit multiply helper from the software
-   floating-point group (the EE has no FPU): three 32x32 multiplies feed
-   HI/LO and one register, and the result is rebuilt with a mask.
-   Retail: mult $a0,$v1 ; mult $a2,$a2,$a1 ; multu $a0,$a1 ; mflo/mfhi ; then
-   hi32(product) + hi_b + lo32(hi_a*lo_b) forms the high word. The first
-   multiply's HI/LO is read by nothing, so the retail build emitted it and then
-   overwrote it with multu.
-   This candidate is the algebraically correct synthesis; tools/check.py shows
-   the same three-multiply family but 24 of 25 words differ. Plain `a * b` is
-   not the route at all: both compilers turn it into a `jal __muldi3` libcall.
-   Unblocked by a source shape that makes cc1 use the 2-operand signed `mult`
-   and the 3-operand `mult1` in one basic block without reading them. */
-typedef unsigned int u32x;
-typedef signed int s32x;
+/* func_00121AB8 = __muldi3 (libgcc2.c, module L_muldi3), 96 bytes, boot.
 
-long long func_00121AB8(long long a, long long b) {
-    u32x lo_a = (u32x)a;
-    u32x lo_b = (u32x)b;
-    s32x hi_a = (s32x)(a >> 32);
-    s32x hi_b = (s32x)(b >> 32);
-    unsigned long long p = (unsigned long long)lo_a * lo_b;
-    s32x high = (s32x)(p >> 32) + hi_a * (s32x)lo_b + (s32x)lo_a * hi_b;
+   Verbatim libgcc2.c source plus the union vocabulary, built with the SDK's
+   unmodified Sony EE-GCC 2.9-ee through its driver (config/cflags.txt
+   "sdk -O2 -G2 -ffunction-sections"). This replaces a hand-written synthesis
+   whose note blamed the compiler - "both compilers turn a*b into a jal
+   __muldi3" was the *game* compiler's behaviour, not this module's.
 
-    return (long long)((u32x)p | ((unsigned long long)(u32x)high << 32));
+   Measured 2026-10-15: same size, same instruction sequence. The residue is
+   one allocation rotation and one scheduling move - our `(s32)(u >> 32)`
+   lands in $v0 (retail $a2), the `mult1` accumulator follows it, `mflo`/`mfhi`
+   come out $a3/$a0 against retail's $a0/$v0, and the 0xFFFF mask materialises
+   between the `mult1` and the `multu` where retail keeps it after the `or`.
+   A split `w.s.high += A; w.s.high += B;` overshoots to 28 instructions and
+   crosses into func_00121B20, so the single `+=` stays verbatim.
+
+   Provenance: libgcc2.c and longlong.h from the GCC revision rac1-decomp
+   pinned (31cf01446d, 1999-09-09), the L_muldi3 module only. GPL 2-or-later
+   with the libgcc linking exception; notices as in src/core/001232F0.c. */
+
+/* --- libgcc2.c's type vocabulary (unchanged) --------------------------------------- */
+
+typedef int SItype __attribute__((mode(SI)));
+typedef unsigned int USItype __attribute__((mode(SI)));
+typedef int DItype __attribute__((mode(DI)));
+typedef unsigned int UDItype __attribute__((mode(DI)));
+
+#define BITS_PER_UNIT 8
+
+#define SI_TYPE_SIZE (sizeof(SItype) * BITS_PER_UNIT)
+
+struct DIstruct {
+    SItype low, high;
+};
+
+typedef union {
+    struct DIstruct s;
+    DItype ll;
+} DIunion;
+
+/* --- longlong.h, the generic __umulsidi3 (this port has no machine one) ------------ */
+
+#define __umulsidi3(u, v) ((UDItype)(USItype)(u) * (USItype)(v))
+
+/* --- libgcc2.c, the L_muldi3 part (renamed: __muldi3 is func_00121AB8) ------------- */
+
+DItype func_00121AB8(DItype u, DItype v) {
+    DIunion w;
+    DIunion uu, vv;
+
+    uu.ll = u,
+    vv.ll = v;
+
+    w.ll = __umulsidi3(uu.s.low, vv.s.low);
+    w.s.high += ((USItype)uu.s.low * (USItype)vv.s.high
+                 + (USItype)uu.s.high * (USItype)vv.s.low);
+
+    return w.ll;
 }
