@@ -1,5 +1,9 @@
 # Contributing
 
+For local asset research, [Texture matching](docs/TEXTURE-MATCHING.md) explains how to compare
+an external HD pack with your own extracted originals. Only the tool and synthetic tests are
+versioned; inputs and generated correspondence files stay private in ignored directories.
+
 ## Matching a function
 
 1. Set up the build once ([docs/BUILDING.md](docs/BUILDING.md)) and run `tools/build.py all`.

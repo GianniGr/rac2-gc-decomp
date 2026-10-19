@@ -8,6 +8,17 @@ is compiler output that compares byte for byte against the pinned executable.
 Add a row for every item taken from an outside source, at the time it is taken,
 with the source commit and the repository file it informed.
 
+## Texture correspondence tooling
+
+| Source and reviewed revision | Used for | Where |
+| --- | --- | --- |
+| [PCSX2](https://github.com/PCSX2/pcsx2), GPL-3.0-or-later, `d983b2b0665c40acb0455433eb656eebcb9efaf2` (`pcsx2/GS/GSTables.cpp`), and `091ab68708a555198d80a7216965481c7ddd0d98` (`GSTextureCache.cpp`, `GSTextureReplacements.cpp`) | PSMT8 block-byte ordering expressed as bit addressing; XXH3 hash input rules; filename keys and retired TCC-bit normalization | `tools/texture_matches.py`, synthetic swizzle oracle in `tests/test_texture_matches.py`, `docs/TEXTURE-MATCHING.md` |
+| [Wrench](https://github.com/chaoticgd/wrench), GPL-3.0-or-later, `c57c17147fefcdec0631918d2a5875f7e24ec0e9` (`src/core/texture.cpp`) | Indexed PNG palette/alpha export convention, including the loss at alpha values above `0x80` | `tools/texture_matches.py`, `docs/TEXTURE-MATCHING.md` |
+| [OpenRAC RAC1](https://github.com/OpenRAC/rac1-decomp), `6a72939bafff11b28fee52fa6e2099c6fb684ea9` (`docs/ASSETS.md`) | Documentation reference for structural asset identities and original-disc extraction; no decoder code copied | `docs/TEXTURE-MATCHING.md` |
+
+No textures, pixel dumps, pack keys from real images, or generated asset correspondence tables
+are included with this tooling. Test images and DDS headers are constructed synthetically at run time.
+
 ## Promises — RC2-Going-Decompiled
 
 - Project: [Promises/RC2-Going-Decompiled](https://github.com/Promises/RC2-Going-Decompiled)

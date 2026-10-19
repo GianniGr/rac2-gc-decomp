@@ -1,0 +1,3 @@
+# Optional asset-analysis tools only; the matching build does not need these.
+Pillow==12.3.0
+xxhash==3.6.0
